@@ -71,6 +71,8 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
 
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
@@ -79,5 +81,23 @@ dependencies {
     implementation(libs.androidx.work.multiprocess)
     implementation(libs.roomigrantlib)
     ksp(libs.roomigrantcompiler)
+
+
+    implementation(libs.okhttp)
+    implementation(libs.lottie)
+    implementation(libs.play.services.ads)
+    implementation(libs.gson)
+    implementation(libs.installreferrer)
+
+    implementation(platform(libs.firebase.bom))
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.firebase.config)
+
+
+
+
+
 
 }
