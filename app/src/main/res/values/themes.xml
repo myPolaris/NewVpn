@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.NewVpn" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.NewVpn" parent="Theme.Material3.Dark.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">false</item><!-- 状态栏半透明 -->
+        <item name="android:windowTranslucentNavigation">true</item><!-- 导航栏半透明 -->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="BaseDialogTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item><!-- 背景模糊 -->
+        <item name="android:windowMinWidthMajor">50%</item><!-- 在横向（landscape）模式下对话框的最小宽度-->
+        <item name="android:windowMinWidthMinor">50%</item><!-- 在纵向（portrait）模式下对话框的最小宽度-->
+        <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">false</item><!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item><!-- 无标题 -->
+        <item name="android:windowFrame">@android:color/transparent</item><!-- 边框 -->
+    </style>
+
 </resources>

@@ -3,12 +3,8 @@ package com.swift.newvpn.utils
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.util.Base64
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.gson.Gson
@@ -104,28 +100,6 @@ object Utils {
         return String(Base64.decode(b, Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE))
     }
 
-    fun b64Decode(b: String): ByteArray {
-        var ret: ByteArray? = null
-
-        // padding 自动处理，不用理
-        // URLSafe 需要替换这两个，不要用 URL_SAFE 否则处理非 Safe 的时候会乱码
-        val str = b.replace("-", "+").replace("_", "/")
-
-        val flags = listOf(
-            Base64.DEFAULT, // 多行
-            Base64.NO_WRAP, // 单行
-        )
-
-        for (flag in flags) {
-            runCatching {
-                ret = Base64.decode(str, flag)
-            }
-            if (ret != null) return ret
-        }
-
-        throw IllegalStateException("Cannot decode base64")
-    }
-
     fun map2StringMap(m: Map<*, *>): MutableMap<String, Any?> {
         val o = mutableMapOf<String, Any?>()
         m.forEach {
@@ -195,26 +169,4 @@ object Utils {
             }.getOrDefault(BuildConfig.APPLICATION_ID)
         }
 
-    fun transparentStatusBar(window: Window) {
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        var systemUiVisibility = window.decorView.systemUiVisibility
-        systemUiVisibility =
-            systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        window.decorView.systemUiVisibility = systemUiVisibility
-        window.statusBarColor = Color.TRANSPARENT
-
-        //设置状态栏文字颜色
-        setStatusBarTextColor(window, true)
-    }
-
-    fun setStatusBarTextColor(window: Window, light: Boolean) {
-        var systemUiVisibility = window.decorView.systemUiVisibility
-        systemUiVisibility = if (light) { //白色文字
-            systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
-        } else { //黑色文字
-            systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
-        window.decorView.systemUiVisibility = systemUiVisibility
-    }
 }

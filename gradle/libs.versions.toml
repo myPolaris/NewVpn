@@ -1,15 +1,9 @@
 [versions]
 agp = "8.12.3"
-kotlin = "2.0.21"
+kotlin = "2.2.0"
 coreKtx = "1.17.0"
-roomCompiler = "2.8.3"
-roomigrantcompiler = "0.3.4"
-roomigrantlib = "0.3.4"
-roomRuntime = "2.8.3"
-roomKtx = "2.8.3"
 workMultiprocess = "2.11.0"
 workRuntimeKtx = "2.11.0"
-navigationUiKtx = "2.9.6"
 gson = "2.9.0"
 lottie = "6.4.0"
 material = "1.13.0"
@@ -19,19 +13,17 @@ firebaseBomVersion = "34.6.0"
 installreferrer = "2.2"
 constraintlayout = "2.2.1"
 
-
-
+facebookAndroidSdk = "18.0.0"
+xor = "5.0.0"
+gradlePlugin = "5.2.0"
+mmkv = "2.2.4"
+baseAdapterHelper = "4.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-work-multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "workMultiprocess" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
-roomigrantcompiler = { module = "com.github.MatrixDev.Roomigrant:RoomigrantCompiler", version.ref = "roomigrantcompiler" }
-roomigrantlib = { module = "com.github.MatrixDev.Roomigrant:RoomigrantLib", version.ref = "roomigrantlib" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -45,14 +37,18 @@ firebase-crashlytics-ndk = { module = "com.google.firebase:firebase-crashlytics-
 
 installreferrer = { module = "com.android.installreferrer:installreferrer", version.ref = "installreferrer" }
 
-
-
+gradle-plugin = { module = "com.github.megatronking.stringfog:gradle-plugin", version.ref = "gradlePlugin" }
+stringfog_xor = { group = "com.github.megatronking.stringfog", name = "xor", version.ref = "xor" }
+facebook-android-sdk = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebookAndroidSdk" }
+mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
+base-adapter-helper = { group = "io.github.cymchad", name = "BaseRecyclerViewAdapterHelper4", version.ref = "baseAdapterHelper" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version = "2.2.0-2.0.2" }
-navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationUiKtx" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.4" }
+
+
 
