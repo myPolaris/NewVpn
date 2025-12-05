@@ -15,7 +15,7 @@
         app:indicatorSize="48dp"
         app:trackThickness="5dp"
         app:trackColor="@android:color/transparent"
-        app:indicatorColor="#1D5DF6"
+        app:indicatorColor="@color/colorPrimary"
         android:indeterminate="true"/>
 
     <com.google.android.material.textview.MaterialTextView

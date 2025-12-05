@@ -106,11 +106,13 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.activity)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
 
-    implementation(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.work.multiprocess)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation(libs.okhttp)
     implementation(libs.lottie)

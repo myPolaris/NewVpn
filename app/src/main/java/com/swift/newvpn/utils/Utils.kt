@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import android.text.TextUtils
 import android.util.Base64
+import android.webkit.WebView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import com.google.gson.Gson
@@ -25,44 +27,6 @@ object Utils {
         .disableHtmlEscaping()
         .create()
 
-//    fun startService() = ContextCompat.startForegroundService(
-//        app, Intent(app, NekoVpnConnection.serviceClass)
-//    )
-//
-//    fun reloadService() =
-//        app.sendBroadcast(Intent(Action.RELOAD).setPackage(packageName))
-//
-//    fun stopService() =
-//        app.sendBroadcast(Intent(Action.CLOSE).setPackage(packageName))
-
-    private fun showToast(context: Context, res: String, flag: Int) {
-        Toast.makeText(context, res, flag).show()
-    }
-
-    fun showToast(context: Context, res: String) {
-        showToast(context, res, Toast.LENGTH_LONG)
-    }
-
-    fun showShortToast(context: Context, res: String) {
-        showToast(context, res, Toast.LENGTH_SHORT)
-    }
-
-    fun showToast(context: Context, @StringRes resId: Int) {
-        showToast(context, context.getString(resId))
-    }
-
-    fun showShortToast(context: Context, @StringRes resId: Int) {
-        showShortToast(context, context.getString(resId))
-    }
-
-//    fun configureIntent(context: Context): PendingIntent = PendingIntent.getActivity(
-//        context,
-//        0,
-//        Intent(
-//            app, MainActivity::class.java
-//        ).setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT),
-//        PendingIntent.FLAG_IMMUTABLE
-//    )
 
     fun tryLockOrRecreateFile(file: File) {
         if (isAndroid9()) {
@@ -142,31 +106,68 @@ object Utils {
         mergeMap(dst, src)
     }
 
-    @SuppressLint("WrongConstant")
-    fun collapseStatusBar(context: Context) {
-        runCatching {
-            context.getSystemService("statusbar")
-                .apply {
-                    javaClass.getMethod("collapsePanels")
-                        .invoke(this)
+    fun commandLine2String(args: Iterable<String>?): String {
+        // empty path return empty string
+        args ?: return ""
+        // path containing one or more elements
+        return StringBuilder().run {
+            for (arg in args) {
+                if (isNotEmpty()) append(' ')
+                arg.indices.map { arg[it] }.forEach {
+                    when (it) {
+                        ' ', '\\', '"', '\'' -> {
+                            append('\\')  // intentionally no break
+                            append(it)
+                        }
+
+                        else -> append(it)
+                    }
                 }
+            }
+            toString()
         }
     }
 
-
-    @get:SuppressLint("PrivateApi")
-    val processName: String
-        get() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                return Application.getProcessName()
-            return runCatching {
-                val activityThread =
-                    Class.forName("android.app.ActivityThread")
-                val methodName = "currentProcessName"
-                val getProcessName =
-                    activityThread.getDeclaredMethod(methodName)
-                getProcessName.invoke(null) as String
-            }.getOrDefault(BuildConfig.APPLICATION_ID)
+    fun handleWebviewDir(context: Context) {
+        if (isAndroid9()) {
+            return
         }
-
+        runCatching {
+            val pathSet: MutableSet<String> = HashSet()
+            var suffix: String
+            val dataPath = context.dataDir.absolutePath
+            val webViewDir = "/app_webview"
+            val huaweiWebViewDir = "/app_hws_webview"
+            val lockFile = "/webview_data.lock"
+            val processName = AppUtils.processName()
+            if (BuildConfig.APPLICATION_ID != processName) { //判断不等于默认进程名称
+                suffix =
+                    if (TextUtils.isEmpty(processName)) context.getPackageName() else processName
+                WebView.setDataDirectorySuffix(suffix)
+                suffix = "_$suffix"
+                pathSet.add(dataPath + webViewDir + suffix + lockFile)
+                if (DeviceUtils.isHuaweiRom()) {
+                    pathSet.add(dataPath + huaweiWebViewDir + suffix + lockFile)
+                }
+            } else {
+                //主进程
+                suffix = "_$processName"
+                pathSet.add(dataPath + webViewDir + lockFile) //默认未添加进程名后缀
+                pathSet.add(dataPath + webViewDir + suffix + lockFile) //系统自动添加了进程名后缀
+                if (DeviceUtils.isHuaweiRom()) { //部分华为手机更改了webview目录名
+                    pathSet.add(dataPath + huaweiWebViewDir + lockFile)
+                    pathSet.add(dataPath + huaweiWebViewDir + suffix + lockFile)
+                }
+            }
+            for (path in pathSet) {
+                val file = File(path)
+                if (file.exists()) {
+                    Utils.tryLockOrRecreateFile(file)
+                    break
+                }
+            }
+        }.onFailure {
+            Logs.e(it)
+        }
+    }
 }

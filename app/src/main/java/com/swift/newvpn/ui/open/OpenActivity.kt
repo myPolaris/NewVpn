@@ -7,7 +7,9 @@ import com.swift.newvpn.ad.AdProxy
 import com.swift.newvpn.base.BaseActivity
 import com.swift.newvpn.base.ExtraKey
 import com.swift.newvpn.databinding.PageOpenBinding
+import com.swift.newvpn.ui.home.MainActivity
 import com.swift.newvpn.utils.delayed
+import com.swift.newvpn.utils.isNotificationPermissionEnable
 
 class OpenActivity: BaseActivity<PageOpenBinding>() {
 
@@ -16,16 +18,20 @@ class OpenActivity: BaseActivity<PageOpenBinding>() {
     override fun initUI(bind: PageOpenBinding) {
         AdProxy.adBack.preload()
         AdProxy.adConnect.preload()
+        setPermissionLauncher {  }
+
+        lifecycleScope.delayed(2000){
+            MainActivity.start(this)
+        }
+
+        if (!isNotificationPermissionEnable()){
+            requestPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-
-        lifecycleScope.delayed(2000){
-            showLoadingDialog()
-        }
     }
-
 
     override fun isFitSystemWindows() = false
 

@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
+import com.swift.newvpn.ad.AdProxy
 import com.swift.newvpn.ui.dialog.LoadingDialog
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
@@ -115,6 +116,12 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     open fun showBackAd() {
+        val isShow = AdProxy.adBack.showAd(this) {
+            finish()
+        }
+        if (!isShow) {
+            finish()
+        }
     }
 
     //******************* permission *******************
@@ -176,5 +183,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         if (::loadingDialog.isInitialized) {
             loadingDialog.dismiss()
         }
+    }
+
+    override fun onDestroy() {
+        hideLoadingDialog()
+        super.onDestroy()
     }
 }

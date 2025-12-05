@@ -6,6 +6,7 @@ import com.swift.newvpn.utils.runCalculate
 import com.swift.newvpn.utils.runCatchingDef
 import com.swift.newvpn.model.ProxyEntity
 import com.swift.newvpn.utils.InstallReferrerUtils
+import com.swift.newvpn.utils.ProxyManager
 import com.swift.newvpn.utils.Utils
 
 object RemoteConfig {
@@ -29,17 +30,18 @@ object RemoteConfig {
             KvCache.adConfig = Utils.b64EncodeUrlSafe(it)
         }
 
-        appScope.runCalculate {
-            getVpnProxyList().takeIf { c -> c.isNotEmpty() }?.runCatchingDef {
-                Utils.gson.fromJson(it, ProxyEntity::class.java)
-                    ?.toSocksBenList()
-//                        ?.createProfiles() TODO
-            }
-        }
+        getRemoteConfig()
 
         InstallReferrerUtils.isOrganicUser.set(InstallReferrerUtils.remoteRefOrganic(true))
 //            }
 //        }
+    }
+
+    fun getRemoteProxy() = getVpnProxyList().takeIf { it.isNotEmpty() }?.runCatchingDef {
+        Utils.gson.fromJson(it, ProxyEntity::class.java)
+            ?.toSocksBenList()?.apply {
+                ProxyManager.createProfiles(this)
+            }
     }
 
     fun getOrganic(): String = getStringConfig(
@@ -55,17 +57,12 @@ object RemoteConfig {
 
     fun getVpnProxyList(): String = getStringConfig(
         "scape_conf_serv",
-        KvCache.vpnConfig.takeIf { it.isNotEmpty() }
-            ?: "ewogICJjb25mX3NlcnYiOiB7CiAgICAibGlzdHMiOiBbCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDEiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE4CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDIiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE2CiAgICAgIH0KICAgIF0KICB9Cn0="
-    ) {
-        KvCache.vpnConfig = it
-    }
+         "ewogICJjb25mX3NlcnYiOiB7CiAgICAibGlzdHMiOiBbCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDEiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE4CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDIiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE2CiAgICAgIH0KICAgIF0KICB9Cn0="
+    )
 
-    private fun getStringConfig(key: String, def: String, save: ((String) -> Unit)? = null) =
+    private fun getStringConfig(key: String, def: String) =
         ""// config.getString(key)
             .takeIf {
                 it.isNotEmpty()
-            }?.apply {
-                save?.invoke(this)
             } ?: Utils.b64DecodeUrlSafe(def)
 }

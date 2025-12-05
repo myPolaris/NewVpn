@@ -6,5 +6,13 @@
     <string name="s_ad_flag">AD</string>
     <string name="s_btn_install">INSTALL</string>
     <string name="s_open_ad_add_time">Connection time is running low. Tap to add 30 minutes.</string>
-
+    <string name="s_profile_empty">Profile is Empty</string>
+    <string name="s_invalid_server">Invalid server name</string>
+    <string name="service_failed">Failed:</string>
+    <string name="s_vpn_permission_denied">Permission denied to create a VPN service</string>
+    <string name="s_reboot_required">Failed to start VPN service. You might need to reboot your device.</string>
+    <string name="s_traffic" translatable="false">%1$s↑ %2$s↓</string>
+    <string name="s_speed_detail">Proxy： %1$s↑ %2$s↓\nDirect： %3$s↑ %4$s↓</string>
+    <string name="s_speed">%s/s</string>
+    <string name="s_forward_success">Proxy started.</string>
 </resources>

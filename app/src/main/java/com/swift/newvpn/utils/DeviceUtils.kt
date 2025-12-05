@@ -1,5 +1,6 @@
 package com.swift.newvpn.utils
 
+import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 
@@ -22,5 +23,9 @@ object DeviceUtils {
     fun isChinaLocale(): Boolean = java.util.Locale.getDefault().let {
         it.country.equals("CN", ignoreCase = true) ||
                 it.language.equals("zh", ignoreCase = true)
+    }
+
+     fun isHuaweiRom(): Boolean {
+        return Build.MANUFACTURER.contains("HUAWEI")
     }
 }

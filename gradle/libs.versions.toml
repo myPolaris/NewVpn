@@ -1,6 +1,6 @@
 [versions]
-agp = "8.12.3"
-kotlin = "2.2.0"
+agp = "8.13.1"
+kotlin = "2.2.21"
 coreKtx = "1.17.0"
 workMultiprocess = "2.11.0"
 workRuntimeKtx = "2.11.0"
@@ -19,11 +19,16 @@ gradlePlugin = "5.2.0"
 mmkv = "2.2.4"
 baseAdapterHelper = "4.3.2"
 
+lifecycle = "2.9.4"
+activity = "1.12.0"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+
 androidx-work-multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "workMultiprocess" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -42,6 +47,11 @@ stringfog_xor = { group = "com.github.megatronking.stringfog", name = "xor", ver
 facebook-android-sdk = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebookAndroidSdk" }
 mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
 base-adapter-helper = { group = "io.github.cymchad", name = "BaseRecyclerViewAdapterHelper4", version.ref = "baseAdapterHelper" }
+
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

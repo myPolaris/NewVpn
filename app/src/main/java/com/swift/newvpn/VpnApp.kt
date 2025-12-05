@@ -2,8 +2,10 @@ package com.swift.newvpn
 
 import android.app.Application
 import android.content.Context
-import androidx.work.Configuration
+import android.os.StrictMode
 import com.swift.newvpn.ad.AdUtils
+import com.swift.newvpn.base.KvCache
+import com.swift.newvpn.base.NetworkCallback
 import com.swift.newvpn.base.RemoteConfig
 import com.swift.newvpn.base.VpnActivityLifecycleCallback
 import com.swift.newvpn.utils.runCalculate
@@ -11,28 +13,29 @@ import com.swift.newvpn.utils.AppUtils
 import com.swift.newvpn.utils.AppUtils.isBackProcesses
 import com.swift.newvpn.utils.AppUtils.isMainProcesses
 import com.swift.newvpn.utils.InstallReferrerUtils
+import com.swift.newvpn.utils.NotificationHelper
+import com.swift.newvpn.utils.SingBoxUtils
 import com.tencent.mmkv.MMKV
+import kotlinx.coroutines.DEBUG_PROPERTY_NAME
+import kotlinx.coroutines.DEBUG_PROPERTY_VALUE_ON
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import libcore.Libcore
 
-class VpnApp : Application(), Configuration.Provider {
+class VpnApp : Application() {
     private var appScope = MainScope()
+
     companion object {
         lateinit var vpnApp: VpnApp
     }
 
-    val process : String
+    val process: String
         get() = AppUtils.processName()
     val isMainProcess: Boolean
         get() = process.isMainProcesses()
 
     val isBackProcess: Boolean
         get() = process.isBackProcesses()
-
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setDefaultProcessName("${BuildConfig.APPLICATION_ID}:newVpn").build()
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
@@ -42,9 +45,6 @@ class VpnApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         init()
-        if (isMainProcess) {
-            inMainProcess()
-        }
         appScope.runCalculate {
             initByBackground()
         }
@@ -53,15 +53,15 @@ class VpnApp : Application(), Configuration.Provider {
         }
     }
 
-    private fun inMainProcess() {
-
-    }
-
     private suspend fun initByBackground() {
-        if (isMainProcess){
-            AdUtils.initAd(this)
-        }
         InstallReferrerUtils.startConnection(this@VpnApp)
+        if (isMainProcess) {
+            AdUtils.initAd(this)
+            NetworkCallback.start(this) {
+                KvCache.underlyingNetwork = it
+            }
+            NotificationHelper.updateNotificationChannels()
+        }
     }
 
     private fun init() {
@@ -70,10 +70,26 @@ class VpnApp : Application(), Configuration.Provider {
             RemoteConfig.initRemoteConfig(this)
         }
         registerActivityLifecycleCallbacks(VpnActivityLifecycleCallback())
+        if (isMainProcess || isBackProcess) {
+            SingBoxUtils.initSingBox(this)
+        }
     }
 
     private fun initWithDebug() {
+        System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
+        StrictMode.setVmPolicy(
+            StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .detectLeakedRegistrationObjects()
+                .penaltyLog()
+                .build()
+        )
+    }
 
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        NotificationHelper.updateNotificationChannels()
     }
 
     override fun onTrimMemory(level: Int) {

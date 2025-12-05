@@ -2,6 +2,7 @@
 <resources>
 
     <style name="Theme.NewVpn" parent="Theme.Material3.Dark.NoActionBar" >
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="windowActionBar">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
