@@ -45,7 +45,8 @@ class NativeLoader(adPos: String) : BaseLoader<NativeWrapper>(adPos) {
         activity: BaseActivity<*>,
         adGroup: ViewGroup?
     ): Boolean {
-        if (activity.isActivityPaused() || adGroup == null || !AdUtils.isEnable(adPos)) return false
+        if (activity.isActivityPaused() || adGroup == null || !AdUtils.isNativeShowEnable(adPos)) return false
+        wrapper?.onDestroy()
         return getAdWrapper().apply {
             wrapper = this
         }?.showAd {

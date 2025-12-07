@@ -43,7 +43,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,16 +52,22 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.home.MainActivity"
             android:exported="false"
             android:launchMode="singleInstance" />
-
         <activity
             android:name=".ui.VpnLauncher"
             android:excludeFromRecents="true"
             android:taskAffinity="" />
+        <activity android:name=".ui.result.ResultActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ui.proxy.ProxyListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
 
         <service
             android:name=".vpn.services.ScapeVpnService"
@@ -72,7 +77,6 @@
             android:permission="android.permission.BIND_VPN_SERVICE"
             android:process=":scapeVpn"
             tools:ignore="ForegroundServicePermission">
-
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
@@ -81,13 +85,10 @@
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove" />
-
-        <!-- 测试 ID -->
+            tools:node="remove" /> <!-- 测试 ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
-
         <meta-data
             android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
             android:value="true" />
@@ -96,13 +97,10 @@
             android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
-            android:value="false" />
-
-        <!--facebook-->
+            android:value="false" /> <!-- facebook -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_Id" />
-
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_token" />

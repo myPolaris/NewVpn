@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
-import com.swift.newvpn.databinding.LayoutNativeAdBinding
+import com.swift.newvpn.utils.setNative
 
 class NavAdViewGroup : FrameLayout {
 
@@ -44,20 +44,13 @@ class NavAdViewGroup : FrameLayout {
         addView(adView)
     }
 
-    private fun initView() =
-        LayoutNativeAdBinding.inflate(obtainLayoutInflater()).apply {
-            tvAdFlag.visibility = VISIBLE
-            root.isEnabled = true
-            title.isEnabled = true
-            body.isEnabled = true
-            action.isEnabled = true
-
+    private fun initView() = obtainLayoutInflater().setNative(false)
+        .apply {
             root.mediaView = mediaView
             root.headlineView = title
             root.bodyView = body
             root.callToActionView = action
             root.iconView = imgIcon
-
 
             root.bodyView?.visibility = INVISIBLE
             root.callToActionView?.visibility = INVISIBLE

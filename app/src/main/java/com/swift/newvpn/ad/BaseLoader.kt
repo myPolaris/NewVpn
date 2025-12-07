@@ -45,6 +45,10 @@ abstract class BaseLoader<T : AdWrapper>(val adPos: String) : OnPaidEventListene
         loadAd()
     }
 
+    fun removeCallback(){
+        adCache.removeCallback()
+    }
+
     private fun loadAd(loadCallback: ((Boolean) -> Unit)? = null) {
         adCache.loadAd(loadCallback) { config ->
             val deferred = CompletableDeferred<T?>()

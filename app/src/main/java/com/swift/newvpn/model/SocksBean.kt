@@ -8,13 +8,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SocksBean(
-    var userOrder: Long = 0L,
     var tx: Long = 0L,//上行速度
     var rx: Long = 0L,//下行速度
     var serverAddress: String = "",
     var serverPort: Int = 1080,
     var name: String = "",
-    var sUoT: Boolean = false,
     var customOutboundJson: String = "",
     var customConfigJson: String = "",
     @Transient
@@ -46,13 +44,19 @@ data class SocksBean(
     }
 
     fun update(bean: SocksBean) {
-        code = bean.code
-        protocol = bean.protocol
-        username = bean.username
-        password = bean.password
-        name = bean.name
+        tx = bean.tx
+        rx = bean.rx
         serverAddress = bean.serverAddress
         serverPort = bean.serverPort
+        name = bean.name
+        customOutboundJson = bean.customOutboundJson
+        customConfigJson = bean.customConfigJson
+        finalAddress = bean.finalAddress
+        finalPort = bean.finalPort
+        protocol = bean.protocol
+        code = bean.code
+        username = bean.username
+        password = bean.password
     }
 }
 

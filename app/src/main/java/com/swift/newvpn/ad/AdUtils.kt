@@ -6,12 +6,12 @@ import androidx.annotation.WorkerThread
 import com.google.android.gms.ads.MobileAds
 import com.swift.newvpn.BuildConfig
 import com.swift.newvpn.base.KvCache
-import com.swift.newvpn.utils.runCatchingDef
 import com.swift.newvpn.model.AdConfig
-import com.swift.newvpn.model.AdPosition
 import com.swift.newvpn.model.RemoteAdConfig
+import com.swift.newvpn.utils.DeviceUtils
 import com.swift.newvpn.utils.InstallReferrerUtils
 import com.swift.newvpn.utils.Utils
+import com.swift.newvpn.utils.runCatchingDef
 import java.util.concurrent.atomic.AtomicBoolean
 
 object AdUtils {
@@ -27,17 +27,20 @@ object AdUtils {
         }
     }
 
-    private val passAd = listOf(AdPosition.InsBack.key)
+    private val passAd = emptyList<String>() //listOf(AdPosition.InsBack.key)
 
     fun isEnable(adPos: String): Boolean {
-        return BuildConfig.DEBUG || (loadEnabled() && !isPass(
+        return BuildConfig.DEBUG || (loadEnabled() && !isPass(adPos))
+    }
+
+    fun isNativeShowEnable(adPos: String): Boolean {
+        return BuildConfig.DEBUG || (DeviceUtils.hasSim() && !DeviceUtils.isDeveloper() && !isPass(
             adPos
         ))
     }
 
     private fun loadEnabled() =
-        //TODO
-        true//KvCache.serviceState.connected && DeviceUtils.hasSim() && !DeviceUtils.isDeveloper()
+        KvCache.serviceState.connected && DeviceUtils.hasSim() && !DeviceUtils.isDeveloper()
 
     private fun isPass(adPos: String): Boolean {
         return InstallReferrerUtils.isOrganicUser.get() && passAd.contains(adPos)

@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 interface Event
 
+object ShowAdEvent: Event
+object NextPageEvent: Event
+
 abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
     protected val _event = Channel<Event>()
 

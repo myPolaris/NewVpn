@@ -5,13 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.format.Formatter
-import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
 import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View.VISIBLE
+import android.view.ViewGroup
 import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -25,6 +23,7 @@ import com.swift.newvpn.R
 import com.swift.newvpn.VpnApp
 import com.swift.newvpn.base.BaseActivity
 import com.swift.newvpn.base.VpnActivityLifecycleCallback
+import com.swift.newvpn.databinding.LayoutNativeAdBinding
 import com.swift.newvpn.model.SocksBean
 import kotlinx.coroutines.flow.Flow
 import java.io.File
@@ -32,12 +31,6 @@ import java.io.File
 val app = VpnApp.vpnApp
 val packageName = app.packageName
 val appContentResolver = app.contentResolver
-
-inline fun <R> runCatchingDef(block: () -> R) = runCatching {
-    block()
-}.onFailure {
-    it.printStackTrace()
-}
 
 inline fun <T, R> T.runCatchingDef(block: (T) -> R) = runCatching {
     block(this)
@@ -80,24 +73,6 @@ fun SocksBean.getNationalFlagImage() = when (code) {
     else -> R.mipmap.usa
 }
 
-fun Context.getRewardHintStr() = getString(R.string.s_open_ad_add_time).let {
-    SpannableString(it).apply {
-        val startIndex = 43
-        val endIndex = 45
-        setSpan(
-            ForegroundColorSpan(Color.RED),
-            startIndex,
-            endIndex,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
-        setSpan(
-            UnderlineSpan(),
-            startIndex,
-            endIndex,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        )
-    }
-}
 
 fun @receiver:StringRes Int.getString() = ContextCompat.getString(app, this)
 
@@ -168,5 +143,30 @@ fun File.recreate(dir: Boolean) {
     } else if (!dir && !isDirectory) {
         if (exists()) delete()
         mkdir()
+    }
+}
+
+fun Long.formatToTime(): String {
+    val hours = this / 3600
+    val minutes = (this % 3600) / 60
+    val seconds = this % 60
+    return String.format("%02d:%02d:%02d".lowercase(), hours, minutes, seconds)
+}
+
+fun LayoutInflater.setNative(isDef: Boolean = true) =
+    LayoutNativeAdBinding.inflate(this).apply {
+        val isEnabled = !isDef
+        tvAdFlag.visibility = if (isDef) ViewGroup.GONE else VISIBLE
+        cardIconContainer.isEnabled = isEnabled
+        cardAdContainer.isEnabled = isEnabled
+        root.isEnabled = isEnabled
+        title.isEnabled = isEnabled
+        body.isEnabled = isEnabled
+        action.isEnabled = isEnabled
+    }
+
+fun ViewGroup.setNativeDef() {
+    LayoutInflater.from(context).setNative(true).also {
+        addView(it.root)
     }
 }

@@ -1,25 +1,31 @@
 package com.swift.newvpn.ui.home
 
 import android.app.Application
-import android.util.Log
 import com.swift.newvpn.IVpnService
 import com.swift.newvpn.base.BaseViewModel
 import com.swift.newvpn.base.KvCache
 import com.swift.newvpn.base.SingleLiveData
+import com.swift.newvpn.model.SocksBean
 import com.swift.newvpn.model.SpeedData
 import com.swift.newvpn.model.TrafficData
+import com.swift.newvpn.utils.ProxyManager
 import com.swift.newvpn.vpn.services.ScapeVpnConnection
 import com.swift.newvpn.vpn.services.VpnState
-import com.swift.newvpn.utils.ProxyManager
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class MainViewModel(app: Application) : BaseViewModel(app), ScapeVpnConnection.Callback {
-
+class VpnViewModel(app: Application) : BaseViewModel(app), ScapeVpnConnection.Callback {
 
     val speedData = MutableStateFlow<SpeedData?>(null)
     val stateData = SingleLiveData<VpnState?>(null)
 
     val onBinderDied = SingleLiveData(false)
+
+    val currentProxy = SingleLiveData<SocksBean?>(null)
+
+    fun initProxy() {
+        currentProxy.postValue(ProxyManager.initProxy())
+    }
 
     private fun changeState(
         state: VpnState
@@ -55,5 +61,17 @@ class MainViewModel(app: Application) : BaseViewModel(app), ScapeVpnConnection.C
 
     override fun cbSelectorUpdate(name: String) {
         ProxyManager.setSelectedProxy(name)
+    }
+
+    fun checkVpnProfile(block: (Boolean) -> Unit) {
+        val proxy = currentProxy.value ?: ProxyManager.initProxy().apply {
+            currentProxy.postValue(this)
+        }
+        proxy?.also {
+            runMain {
+                delay(200)
+                block(true)
+            }
+        } ?: block(false)
     }
 }

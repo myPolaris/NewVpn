@@ -1,12 +1,10 @@
 package com.swift.newvpn.utils
 
-import android.util.Log
 import com.google.gson.reflect.TypeToken
 import com.swift.newvpn.base.KvCache
 import com.swift.newvpn.base.RemoteConfig
 import com.swift.newvpn.model.SocksBean
 import java.util.concurrent.atomic.AtomicReference
-import kotlin.math.log
 
 private fun String.toSocksBeans(): List<SocksBean>? =
     runCatchingDef {
@@ -19,20 +17,26 @@ object ProxyManager {
 
     private val selectedProxyBean = AtomicReference<SocksBean>()
 
+    fun initProxy() = synchronized(selectedProxyBean) {
+        getSelectedProxy() ?: setSelectedProxy(KvCache.selectedProxy)
+    }
+
     fun getSelectedProxy() = synchronized(selectedProxyBean) {
         selectedProxyBean.get() ?: getProfile(KvCache.selectedProxy).apply {
             selectedProxyBean.set(this)
         }
     }
 
-    fun setSelectedProxy(name: String) {
-        synchronized(selectedProxyBean) {
-            val proxy = name.takeIf { it.isNotEmpty() }?.run {
-                getProfile(this)
-            } ?: getAll().firstOrNull()
-            setSelectedProxy(proxy)
+    fun setSelectedProxy(name: String) = synchronized(selectedProxyBean) {
+        getProfileDef(name).apply {
+            setSelectedProxy(this)
         }
     }
+
+    private fun getProfileDef(name: String): SocksBean? =
+        name.takeIf { it.isNotEmpty() }?.run {
+            getProfile(this)
+        } ?: getAll().firstOrNull()
 
     private fun setSelectedProxy(proxy: SocksBean?) {
         selectedProxyBean.set(proxy)
@@ -48,13 +52,10 @@ object ProxyManager {
                 ?: KvCache.proxyList.toSocksBeans()//本地文件
                 ?: RemoteConfig.getRemoteProxy()//远程配置
                 ?: emptyList()
-        }.apply {
-            Log.e("ProxyManager", "getAll: $this")
         }
 
     fun updateProfile(it: SocksBean) {
         //TODO
-        Log.e("ProxyManager", "updateProfile: $it")
     }
 
     fun createProfiles(beans: List<SocksBean>) {

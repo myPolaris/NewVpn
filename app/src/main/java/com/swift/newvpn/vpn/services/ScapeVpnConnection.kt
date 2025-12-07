@@ -13,6 +13,7 @@ import com.swift.newvpn.base.KvCache
 import com.swift.newvpn.model.SpeedData
 import com.swift.newvpn.model.TrafficData
 import com.swift.newvpn.utils.appScope
+import com.swift.newvpn.utils.runCatchingDef
 import com.swift.newvpn.utils.runMain
 import kotlin.also
 import kotlin.jvm.java
@@ -23,7 +24,7 @@ class ScapeVpnConnection(
 ) : ServiceConnection, IBinder.DeathRecipient {
 
     companion object {
-        val serviceClass= ScapeVpnService::class.java
+        val serviceClass = ScapeVpnService::class.java
 
         const val CONNECTION_ID_MAIN_ACTIVITY_FOREGROUND = 2
         const val CONNECTION_ID_MAIN_ACTIVITY_BACKGROUND = 3
@@ -36,15 +37,12 @@ class ScapeVpnConnection(
 
         fun cbSpeedUpdate(stats: SpeedData) {}
         fun cbTrafficUpdate(data: TrafficData) {}
-        fun cbSelectorUpdate(id: String) {}
+        fun cbSelectorUpdate(name: String) {}
 
         fun stateChanged(state: VpnState, profileName: String?, msg: String?)
 
         fun onServiceConnected(service: IVpnService)
 
-        /**
-         * Different from Android framework, this method will be called even when you call `detachService`.
-         */
         fun onServiceDisconnected() {}
         fun onBinderDied() {}
     }
@@ -92,10 +90,8 @@ class ScapeVpnConnection(
 
     fun updateConnectionId(id: Int) {
         connectionId = id
-        try {
+        runCatchingDef {
             service?.registerCallback(serviceCallback, id)
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
@@ -103,14 +99,12 @@ class ScapeVpnConnection(
         this.binder = binder
         val service = IVpnService.Stub.asInterface(binder)!!
         this.service = service
-        try {
+        runCatching {
             if (listenForDeath) binder.linkToDeath(this, 0)
             check(!callbackRegistered)
             service.registerCallback(serviceCallback, connectionId)
             callbackRegistered = true
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
+        }.onFailure { it.takeIf { it is RemoteException } ?: throw it }
         callback?.onServiceConnected(service)
     }
 
@@ -131,9 +125,10 @@ class ScapeVpnConnection(
 
     private fun unregisterCallback() {
         val service = service
-        if (service != null && callbackRegistered) try {
-            service.unregisterCallback(serviceCallback)
-        } catch (_: RemoteException) {
+        if (service != null && callbackRegistered) {
+            runCatching {
+                service.unregisterCallback(serviceCallback)
+            }.onFailure { it.takeIf { it is RemoteException } ?: throw it }
         }
         callbackRegistered = false
     }
@@ -149,14 +144,14 @@ class ScapeVpnConnection(
 
     fun disconnect(context: Context) {
         unregisterCallback()
-        if (connectionActive) try {
-            context.unbindService(this)
-        } catch (_: IllegalArgumentException) {
-        }   // ignore
+        if (connectionActive) {
+            runCatching { context.unbindService(this) }
+                .onFailure { it.takeIf { it is IllegalArgumentException } ?: throw it }
+        }
         connectionActive = false
-        if (listenForDeath) try {
-            binder?.unlinkToDeath(this, 0)
-        } catch (_: NoSuchElementException) {
+        if (listenForDeath) {
+            runCatching { binder?.unlinkToDeath(this, 0) }
+                .onFailure { it.takeIf { it is NoSuchElementException } ?: throw it }
         }
         binder = null
         service = null

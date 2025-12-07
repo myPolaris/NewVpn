@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_bg"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        app:strokeWidth="2dp"
+        app:cardBackgroundColor="@color/color_item_proxy_bg"
+        app:strokeColor="@color/color_item_proxy_stroke"
+        app:cardCornerRadius="38dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_national_flag"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/usa" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/gray_666"
+        app:layout_constraintBottom_toBottomOf="@id/img_national_flag"
+        app:layout_constraintLeft_toRightOf="@id/img_national_flag"
+        app:layout_constraintTop_toTopOf="@id/img_national_flag" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_proxy_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/line1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="USA 1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_green"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/green"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

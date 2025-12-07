@@ -27,7 +27,7 @@ suspend fun <T> toMain(block: suspend CoroutineScope.() -> T) =
 suspend fun <T> toCalculate(block: suspend CoroutineScope.() -> T) =
     withContext(Dispatchers.Default, block)
 
-fun CoroutineScope.delayed(timeMillis: Long, block: suspend () -> Unit) =
+fun CoroutineScope.postDelay(timeMillis: Long, block: suspend () -> Unit) =
     launch(Dispatchers.Main) {
         delay(timeMillis)
         block()

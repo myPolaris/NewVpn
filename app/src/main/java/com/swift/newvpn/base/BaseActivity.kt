@@ -16,7 +16,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
 import com.swift.newvpn.ad.AdProxy
 import com.swift.newvpn.ui.dialog.LoadingDialog
@@ -58,7 +57,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-    fun Toolbar.setToolbar(isHomePage: Boolean = false) {
+    fun Toolbar.initToolbar(isHomePage: Boolean = false) {
         this@BaseActivity.isHomePage = isHomePage
         setSupportActionBar(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(!isHomePage)
@@ -116,10 +115,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     open fun showBackAd() {
-        val isShow = AdProxy.adBack.showAd(this) {
+        AdProxy.adBack.showAd(this) {
             finish()
-        }
-        if (!isShow) {
+        }.takeIf { !it }?.let {
             finish()
         }
     }
@@ -153,7 +151,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
-    fun registerActivityResultLauncher(callback: (ActivityResult) -> Unit) {
+    fun setActivityResultLauncher(callback: (ActivityResult) -> Unit) {
         if (::activityResultLauncher.isInitialized)
             return
         activityResultLauncher =

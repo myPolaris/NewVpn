@@ -134,4 +134,5 @@ dependencies {
     implementation(libs.mmkv)
     //adapter
     implementation(libs.base.adapter.helper)
+    implementation(libs.androidx.appcompat)
 }

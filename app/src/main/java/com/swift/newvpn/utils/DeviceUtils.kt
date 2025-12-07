@@ -3,6 +3,7 @@ package com.swift.newvpn.utils
 import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import com.swift.newvpn.BuildConfig
 
 object DeviceUtils {
 
@@ -16,9 +17,9 @@ object DeviceUtils {
 
     fun getSecureSettingInt(name: String, def: Int = 0) = Settings.Secure.getInt(appContentResolver, name, def)
 
-    fun isDeviceInMainlandChina() = (telephonyManager?.simCountryIso?.lowercase() == "cn"
+    fun isDeviceInMainlandChina() = !BuildConfig.DEBUG && (telephonyManager?.simCountryIso?.lowercase() == "cn"
             || telephonyManager?.networkCountryIso?.lowercase() == "cn"
-            || isChinaLocale())
+            || isChinaLocale())//TODO 正式环境去掉debug
 
     fun isChinaLocale(): Boolean = java.util.Locale.getDefault().let {
         it.country.equals("CN", ignoreCase = true) ||

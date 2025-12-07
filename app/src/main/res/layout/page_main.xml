@@ -1,17 +1,352 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@mipmap/bj">
 
-    <Button
-        android:id="@+id/btn_1"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_connection_state"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/state_connect"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintLeft_toLeftOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="@id/toolbar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_connection_state_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="7dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/s_connection_state_label"
+        android:textColor="@color/gray_666"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_connection_state"
+        app:layout_constraintLeft_toRightOf="@id/img_connection_state"
+        app:layout_constraintTop_toTopOf="@id/img_connection_state" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_connection_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_connection_state"
+        app:layout_constraintLeft_toLeftOf="@id/tv_connection_state_label"
+        app:layout_constraintTop_toBottomOf="@id/tv_connection_state_label"
+        tools:text="@string/s_not_connected" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_speed_bg"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#80364046"
+        app:cardCornerRadius="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintWidth_percent="0.78"
+        app:strokeColor="@color/white_52"
+        app:strokeWidth="1dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_upload"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="28dp"
+        android:src="@mipmap/ic_upload"
+        app:layout_constraintBottom_toBottomOf="@id/card_speed_bg"
+        app:layout_constraintLeft_toLeftOf="@id/card_speed_bg"
+        app:layout_constraintTop_toTopOf="@id/card_speed_bg" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_upload_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/s_upload_label"
+        android:textColor="@color/gray_666"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_upload_speed"
+        app:layout_constraintLeft_toRightOf="@id/img_upload"
+        app:layout_constraintTop_toTopOf="@id/img_upload" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_upload_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#ffffd435"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_upload"
+        app:layout_constraintLeft_toLeftOf="@id/tv_upload_label"
+        app:layout_constraintTop_toBottomOf="@id/tv_upload_label"
+        tools:text="98 mb/s" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:background="@color/white_52"
+        app:layout_constraintBottom_toBottomOf="@id/card_speed_bg"
+        app:layout_constraintLeft_toLeftOf="@id/card_speed_bg"
+        app:layout_constraintRight_toRightOf="@id/card_speed_bg"
+        app:layout_constraintTop_toTopOf="@id/card_speed_bg" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_download"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@mipmap/ic_download"
+        app:layout_constraintBottom_toBottomOf="@id/card_speed_bg"
+        app:layout_constraintRight_toLeftOf="@id/tv_download_left"
+        app:layout_constraintTop_toTopOf="@id/card_speed_bg" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/tv_download_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="tv_download_label,tv_download_speed" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_download_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/s_download_label"
+        android:textColor="@color/gray_666"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_download_speed"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toLeftOf="@id/tv_download_speed"
+        app:layout_constraintRight_toRightOf="@id/card_speed_bg"
+        app:layout_constraintTop_toTopOf="@id/img_download" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_download_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="28dp"
+        android:textColor="#0466FE"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_download"
+        app:layout_constraintLeft_toRightOf="@id/img_download"
+        app:layout_constraintRight_toRightOf="@id/card_speed_bg"
+        app:layout_constraintTop_toBottomOf="@id/tv_download_label"
+        tools:text="198 mb/s" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_connect_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_speed_bg"
+        tools:text="59:21:08" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bg_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/bg_on"
+        android:visibility="invisible"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/tv_connect_time" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_proxy_bg_on"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="#80364046"
+        app:cardCornerRadius="18dp"
+        app:layout_constraintLeft_toLeftOf="@id/img_national_flag_on"
+        app:layout_constraintRight_toRightOf="@id/tv_disconnect"
+        app:layout_constraintTop_toTopOf="@id/bg_center"
+        app:strokeColor="@color/white_52"
+        app:strokeWidth="1dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_national_flag_on"
+        android:layout_width="26dp"
+        android:layout_height="20dp"
+        android:paddingStart="6dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg_on"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_proxy_name_on"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg_on"
+        tools:src="@mipmap/usa" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_proxy_name_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg_on"
+        app:layout_constraintLeft_toRightOf="@id/img_national_flag_on"
+        app:layout_constraintRight_toLeftOf="@id/line1"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg_on"
+        tools:text="USA 1" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:background="@color/white_52"
+        app:layout_constraintBottom_toBottomOf="@id/tv_proxy_name_on"
+        app:layout_constraintLeft_toRightOf="@id/tv_proxy_name_on"
+        app:layout_constraintRight_toLeftOf="@id/tv_disconnect"
+        app:layout_constraintTop_toTopOf="@id/tv_proxy_name_on" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_black"
+        android:paddingEnd="6dp"
+        android:text="Disconnect"
+        android:textColor="#ff59fd9d"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_national_flag_on"
+        app:layout_constraintLeft_toRightOf="@id/line1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/img_national_flag_on" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/point_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/home_connect_on"
+        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintLeft_toLeftOf="@id/card_proxy_bg_on"
+        app:layout_constraintRight_toRightOf="@id/card_proxy_bg_on"
+        app:layout_constraintTop_toBottomOf="@id/card_proxy_bg_on" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_on"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="card_proxy_bg_on,img_national_flag_on,tv_proxy_name_on,line1,tv_disconnect,point_on" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_off_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:src="@mipmap/off"
+        app:layout_constraintBottom_toTopOf="@id/card_proxy_bg"
+        app:layout_constraintHeight_percent="0.197"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_connect_time"
+        app:layout_constraintVertical_bias="0" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_proxy_bg"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:cardBackgroundColor="#80364046"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="@id/bg_center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintWidth_percent="0.78"
+        app:strokeColor="@color/white_52"
+        app:strokeWidth="1dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_national_flag"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg"
+        app:layout_constraintLeft_toLeftOf="@id/card_proxy_bg"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg"
+        tools:src="@mipmap/usa" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:background="@color/white_52"
+        app:layout_constraintBottom_toBottomOf="@id/img_national_flag"
+        app:layout_constraintLeft_toRightOf="@id/img_national_flag"
+        app:layout_constraintTop_toTopOf="@id/img_national_flag" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tv_proxy_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg"
+        app:layout_constraintLeft_toRightOf="@id/line2"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg"
+        tools:text="USA 1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_green"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:src="@mipmap/green"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg"
+        app:layout_constraintLeft_toRightOf="@id/tv_proxy_name"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_more"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp"
+        android:src="@mipmap/more"
+        app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg"
+        app:layout_constraintRight_toRightOf="@id/card_proxy_bg"
+        app:layout_constraintTop_toTopOf="@id/card_proxy_bg" />
+
+    <FrameLayout
+        android:id="@+id/nav_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_proxy_bg"
+        app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

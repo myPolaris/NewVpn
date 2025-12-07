@@ -9,7 +9,6 @@ object Constants {
 object CacheKey{
     const val MIXED_PORT = "mixed_port"
     const val SELECTED_PROXY = "selected_proxy"
-    const val VPN_CONFIG= "vpn_configuration"
     const val AD_CONFIG = "ad_configuration"
     const val INSTALL_REFERRER = "install_referrer"
     const val PROXY_LIST = "proxy_list"
@@ -18,6 +17,7 @@ object CacheKey{
 
 object ExtraKey{
     const val HOT_LAUNCHER = "HOT_LAUNCHER"
+    const val CONNECT_ACTION = "CONNECT_ACTION"
 }
 
 
