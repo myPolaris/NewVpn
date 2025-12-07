@@ -36,7 +36,6 @@ class VpnActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityStarted(activity: Activity) {
         activity.filter()?.takeIf {
-            activityCount++
             it.isNeedOpenPage()
         }?.run {
             OpenActivity.start(this)
@@ -53,8 +52,7 @@ class VpnActivityLifecycleCallback : Application.ActivityLifecycleCallbacks {
         }
     }
 
-    private fun Activity.isNeedOpenPage()
-    = activityCount == 0 && this !is OpenActivity && !isPass
+    private fun Activity.isNeedOpenPage() = activityCount++ == 0 && this !is OpenActivity && !isPass
 
     private fun Activity.filter() = takeIf { it is BaseActivity<*> }
 }

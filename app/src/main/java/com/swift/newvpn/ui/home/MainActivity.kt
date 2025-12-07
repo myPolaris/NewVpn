@@ -171,7 +171,6 @@ class MainActivity : BaseActivity<PageMainBinding>() {
                 showNavAd()
             }
             it.event.observeCompat(this) { event ->
-                Log.e("MainActivity", "initEvent: $event")
                 if (event is NextPageEvent) {
                    goResultPage()
                 }

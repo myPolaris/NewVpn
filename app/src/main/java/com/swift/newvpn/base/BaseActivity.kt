@@ -3,7 +3,6 @@ package com.swift.newvpn.base
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.util.TypedValue.applyDimension
 import android.view.View
@@ -19,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
 import com.swift.newvpn.ad.AdProxy
 import com.swift.newvpn.ui.dialog.LoadingDialog
+import com.swift.newvpn.ui.home.MainActivity
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected val TAG = javaClass.simpleName
@@ -116,9 +116,9 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     open fun showBackAd() {
         AdProxy.adBack.showAd(this) {
-            finish()
+            MainActivity.start(this)
         }.takeIf { !it }?.let {
-            finish()
+            MainActivity.start(this)
         }
     }
 

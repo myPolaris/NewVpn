@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
 import com.google.android.gms.ads.MobileAds
-import com.swift.newvpn.BuildConfig
 import com.swift.newvpn.base.KvCache
 import com.swift.newvpn.model.AdConfig
 import com.swift.newvpn.model.RemoteAdConfig
@@ -30,13 +29,11 @@ object AdUtils {
     private val passAd = emptyList<String>() //listOf(AdPosition.InsBack.key)
 
     fun isEnable(adPos: String): Boolean {
-        return BuildConfig.DEBUG || (loadEnabled() && !isPass(adPos))
+        return loadEnabled() && !isPass(adPos)
     }
 
     fun isNativeShowEnable(adPos: String): Boolean {
-        return BuildConfig.DEBUG || (DeviceUtils.hasSim() && !DeviceUtils.isDeveloper() && !isPass(
-            adPos
-        ))
+        return DeviceUtils.hasSim() && !DeviceUtils.isDeveloper() && !isPass(adPos)
     }
 
     private fun loadEnabled() =
