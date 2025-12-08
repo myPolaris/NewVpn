@@ -2,6 +2,7 @@ package com.swift.newvpn.ui.dialog
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.WindowManager
 import com.swift.newvpn.base.BaseDialog
 import com.swift.newvpn.databinding.LayoutDeviceChainDialogBinding
 import com.swift.newvpn.utils.AppUtils
@@ -14,7 +15,10 @@ class DeviceInChainDialog(context: Context) : BaseDialog<LayoutDeviceChainDialog
     override fun initUI(bind: LayoutDeviceChainDialogBinding) {
         setCancelable(false)
         setCanceledOnTouchOutside(false)
-        bind.btnOk.setOnClickListener {
+        setAttributes {
+            it.width = WindowManager.LayoutParams.MATCH_PARENT
+        }
+        bind.cardBtn.setOnClickListener {
             AppUtils.exitApp()
             dismiss()
         }

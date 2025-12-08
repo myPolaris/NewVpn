@@ -39,7 +39,9 @@ class TimerViewModel(app: Application) : BaseViewModel(app) {
     }
 
     private fun updateConnectingTime(time: Long) {
-        connectingTimeStr.postValue(time.formatToTime())
+        if (timerJob?.isActive == true){
+            connectingTimeStr.postValue(time.formatToTime())
+        }
     }
 
     fun onNativeAdRefreshed() {

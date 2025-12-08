@@ -32,7 +32,7 @@ object RemoteConfig {
 
         getRemoteConfig()
 
-        InstallReferrerUtils.isOrganicUser.set(InstallReferrerUtils.remoteRefOrganic(true))
+        InstallReferrerUtils.checkOrganic(true)
 //            }
 //        }
     }

@@ -19,7 +19,7 @@ internal class StateCallback(val block: () -> Unit) : InstallReferrerStateListen
 
 object InstallReferrerUtils {
 
-    var isOrganicUser = AtomicBoolean(true)
+    private var isOrganicUser = AtomicBoolean(true)
     fun startConnection(context: Context) {
         KvCache.installReferrer
             .takeIf { it.isEmpty() }?.also {
@@ -41,16 +41,22 @@ object InstallReferrerUtils {
 
     private val arrayList = arrayListOf<String>()
 
-    fun checkUrlContainLists(installRef: String): Boolean {
+    private fun checkUrlContainLists(installRef: String): Boolean {
         return arrayList.find {
             installRef.contains(it)
         } != null
     }
 
+    fun isOrganicUser() = isOrganicUser.get()
+
+    fun checkOrganic(isClear: Boolean = false) {
+        isOrganicUser.set(remoteRefOrganic(isClear))
+    }
+
     /**
      * 检查当前用户是否是自然量用户
      * */
-    fun remoteRefOrganic(isClear: Boolean = false): Boolean {
+    private fun remoteRefOrganic(isClear: Boolean = false): Boolean {
         val installRef = KvCache.installReferrer
         if (isClear) {
             arrayList.clear()

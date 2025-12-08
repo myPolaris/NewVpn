@@ -15,17 +15,12 @@ class AdCache<T : AdWrapper>(val adPos: String) {
     @Synchronized
     private fun addCache(ad: T?) {
         ad?.let {
-            synchronized(adCache) {
-                adCache.set(it)
-            }
+            adCache.set(it)
         }
     }
 
     @Synchronized
-    fun getAdWrapper(): T? =
-        synchronized(adCache) {
-            adCache.getAndSet(null)?.takeIf { it.isValid() }
-        }
+    fun getAdWrapper(): T? = adCache.getAndSet(null)?.takeIf { it.isValid() }
 
     @Synchronized
     private fun isAdCached(): Boolean =

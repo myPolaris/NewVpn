@@ -3,7 +3,6 @@ package com.swift.newvpn.base
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.swift.newvpn.utils.runIO
 import com.swift.newvpn.utils.runMain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -25,17 +24,9 @@ abstract class BaseViewModel(app: Application) : AndroidViewModel(app) {
         super.onCleared()
     }
 
-    fun trySendEvent(event: Event) {
-        _event.trySend(event)
-    }
-
     suspend fun sendEvent(event: Event) {
         _event.send(event)
     }
-
-
-    fun runIo(block: suspend CoroutineScope.() -> Unit) =
-        viewModelScope.runIO(block)
 
     fun runMain(block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.runMain(block)

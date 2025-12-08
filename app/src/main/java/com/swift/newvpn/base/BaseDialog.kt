@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.WindowManager
 import androidx.viewbinding.ViewBinding
 import com.swift.newvpn.R
 import kotlinx.coroutines.MainScope
@@ -20,6 +21,14 @@ abstract class BaseDialog<VB : ViewBinding>(context: Context) :
         withBind {
             setContentView(it.root)
             initUI(it)
+        }
+    }
+
+    fun setAttributes(block: (WindowManager.LayoutParams) -> Unit) {
+        window?.run {
+            attributes = attributes?.apply {
+                block(this)
+            }
         }
     }
 

@@ -54,8 +54,11 @@ object ProxyManager {
                 ?: emptyList()
         }
 
-    fun updateProfile(it: SocksBean) {
-        //TODO
+    fun updateProfile(bean: SocksBean) {
+        proxyList.get()?.find { it.name == bean.name }?.also {
+            it.rx = bean.rx
+            it.tx = bean.tx
+        }
     }
 
     fun createProfiles(beans: List<SocksBean>) {

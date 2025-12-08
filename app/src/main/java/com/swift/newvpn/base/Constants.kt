@@ -14,25 +14,16 @@ object CacheKey{
     const val PROXY_LIST = "proxy_list"
 }
 
-
 object ExtraKey{
     const val HOT_LAUNCHER = "HOT_LAUNCHER"
     const val CONNECT_ACTION = "CONNECT_ACTION"
 }
-
 
 object Action {
     const val SERVICE = "com.swift.newvpn.SERVICE"
     const val CLOSE = "com.swift.newvpn.CLOSE"
     const val RELOAD = "com.swift.newvpn.RELOAD"
     const val RESET_UPSTREAM_CONNECTIONS = "com.swift.newvpn.RESET_UPSTREAM_CONNECTIONS"
-}
-
-
-object TunImplementation {
-    const val GVISOR = 0
-    const val SYSTEM = 1
-    const val MIXED = 2
 }
 
 object IPv6Mode {

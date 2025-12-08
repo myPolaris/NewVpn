@@ -6,6 +6,7 @@ import androidx.annotation.WorkerThread
 import com.google.android.gms.ads.MobileAds
 import com.swift.newvpn.base.KvCache
 import com.swift.newvpn.model.AdConfig
+import com.swift.newvpn.model.AdPosition
 import com.swift.newvpn.model.RemoteAdConfig
 import com.swift.newvpn.utils.DeviceUtils
 import com.swift.newvpn.utils.InstallReferrerUtils
@@ -26,7 +27,7 @@ object AdUtils {
         }
     }
 
-    private val passAd = emptyList<String>() //listOf(AdPosition.InsBack.key)
+    private val passAd = listOf(AdPosition.InsBack.key)
 
     fun isEnable(adPos: String): Boolean {
         return loadEnabled() && !isPass(adPos)
@@ -40,7 +41,7 @@ object AdUtils {
         KvCache.serviceState.connected && DeviceUtils.hasSim() && !DeviceUtils.isDeveloper()
 
     private fun isPass(adPos: String): Boolean {
-        return InstallReferrerUtils.isOrganicUser.get() && passAd.contains(adPos)
+        return InstallReferrerUtils.isOrganicUser() && passAd.contains(adPos)
     }
 
     private var remoteAdConfig: RemoteAdConfig? = null

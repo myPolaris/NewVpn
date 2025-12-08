@@ -32,5 +32,6 @@ data class ProxyServer(
         name = alias
         serverAddress = server
         serverPort = port
+        initializeDefaultValues()
     }
 }

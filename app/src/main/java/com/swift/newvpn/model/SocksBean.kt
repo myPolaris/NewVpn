@@ -43,21 +43,6 @@ data class SocksBean(
         finalPort = serverPort
     }
 
-    fun update(bean: SocksBean) {
-        tx = bean.tx
-        rx = bean.rx
-        serverAddress = bean.serverAddress
-        serverPort = bean.serverPort
-        name = bean.name
-        customOutboundJson = bean.customOutboundJson
-        customConfigJson = bean.customConfigJson
-        finalAddress = bean.finalAddress
-        finalPort = bean.finalPort
-        protocol = bean.protocol
-        code = bean.code
-        username = bean.username
-        password = bean.password
-    }
 }
 
 

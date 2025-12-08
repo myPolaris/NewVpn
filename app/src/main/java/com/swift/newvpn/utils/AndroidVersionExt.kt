@@ -20,7 +20,6 @@ private fun Int.checkAndroidVersion(action: ActionCheck = ActionCheck.GreaterOrE
         ActionCheck.LessOrEqual -> Build.VERSION.SDK_INT <= this
     }
 
-
 fun isAndroid8(action: ActionCheck = ActionCheck.GreaterOrEqual) =
     Build.VERSION_CODES.O.checkAndroidVersion(action)
 
@@ -30,14 +29,11 @@ fun isAndroid9(action: ActionCheck = ActionCheck.GreaterOrEqual) =
 fun isAndroid10(action: ActionCheck = ActionCheck.GreaterOrEqual) =
     Build.VERSION_CODES.Q.checkAndroidVersion(action)
 
-fun isAndroid12(action: ActionCheck = ActionCheck.GreaterOrEqual) =
-    Build.VERSION_CODES.S.checkAndroidVersion(action)
+fun isAndroid11(action: ActionCheck = ActionCheck.GreaterOrEqual) =
+    Build.VERSION_CODES.R.checkAndroidVersion(action)
 
 fun isAndroid13(action: ActionCheck = ActionCheck.GreaterOrEqual) =
     Build.VERSION_CODES.TIRAMISU.checkAndroidVersion(action)
 
 fun isAndroid14(action: ActionCheck = ActionCheck.GreaterOrEqual) =
     Build.VERSION_CODES.UPSIDE_DOWN_CAKE.checkAndroidVersion(action)
-
-fun isAndroid15(action: ActionCheck = ActionCheck.GreaterOrEqual) =
-    Build.VERSION_CODES.VANILLA_ICE_CREAM.checkAndroidVersion(action)
