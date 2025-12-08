@@ -156,7 +156,7 @@ fun Long.formatToTime(): String {
 fun LayoutInflater.setNative(isDef: Boolean = true) =
     LayoutNativeAdBinding.inflate(this).apply {
         val isEnabled = !isDef
-        tvAdFlag.visibility = if (isDef) ViewGroup.GONE else VISIBLE
+        tvAdFlag.visibility = if (isDef) ViewGroup.INVISIBLE else VISIBLE
         cardIconContainer.isEnabled = isEnabled
         cardAdContainer.isEnabled = isEnabled
         root.isEnabled = isEnabled

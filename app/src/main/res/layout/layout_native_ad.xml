@@ -54,7 +54,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_ad_flag"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_width="30dp"
             android:layout_height="18dp"
             android:background="@drawable/native_ad_flag"
