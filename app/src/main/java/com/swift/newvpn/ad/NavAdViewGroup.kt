@@ -20,9 +20,7 @@ class NavAdViewGroup : FrameLayout {
         context,
         attributeSet,
         defId
-    ) {
-        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-    }
+    )
 
     private var mNativeAd: NativeAd? = null
     private fun obtainLayoutInflater(): LayoutInflater {

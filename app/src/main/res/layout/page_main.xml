@@ -348,10 +348,14 @@
 
     <FrameLayout
         android:id="@+id/nav_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="H,254:360"
+        app:layout_constraintHeight_percent="0.32"
         android:padding="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_proxy_bg"
         app:layout_constraintVertical_bias="1" />
 
