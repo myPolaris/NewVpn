@@ -116,8 +116,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     open fun showBackAd() {
         AdProxy.adBack.showAd(this) {
+            finish()
             MainActivity.start(this)
         }.takeIf { !it }?.let {
+            finish()
             MainActivity.start(this)
         }
     }

@@ -33,15 +33,14 @@ class TimerViewModel(app: Application) : BaseViewModel(app) {
     }
 
     fun stopTimer() {
+        updateConnectingTime(0)
         timerJob?.cancel()
         timerJob = null
-        updateConnectingTime(0)
     }
 
     private fun updateConnectingTime(time: Long) {
-        if (timerJob?.isActive == true){
-            connectingTimeStr.postValue(time.formatToTime())
-        }
+
+        connectingTimeStr.postValue(time.formatToTime())
     }
 
     fun onNativeAdRefreshed() {
@@ -52,9 +51,11 @@ class TimerViewModel(app: Application) : BaseViewModel(app) {
     private val lastTime = MutableLiveData(0L)
 
     fun checkNativeAdNeedRefresh() {
-        val old = lastTime.value ?: 0
-        if (System.currentTimeMillis() - old > threshold * 1000) {
-            isRefreshNativeAd.postValue(true)
+        if (timerJob?.isActive == true) {
+            val old = lastTime.value ?: 0
+            if (System.currentTimeMillis() - old > threshold * 1000) {
+                isRefreshNativeAd.postValue(true)
+            }
         }
     }
 

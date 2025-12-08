@@ -45,7 +45,7 @@ class AdViewModel(app: Application) : BaseViewModel(app) {
             AdProxy.adConnect.load {
                 if (it) {
                     showAd(activity) {
-                        viewModelScope.runCalculate {
+                        viewModelScope.postDelay(500) {
                             toResultPage()
                         }
                     }
