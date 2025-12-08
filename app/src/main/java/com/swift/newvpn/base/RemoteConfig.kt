@@ -8,6 +8,7 @@ import com.swift.newvpn.model.ProxyEntity
 import com.swift.newvpn.utils.InstallReferrerUtils
 import com.swift.newvpn.utils.ProxyManager
 import com.swift.newvpn.utils.Utils
+import com.swift.newvpn.utils.app
 
 object RemoteConfig {
 
@@ -30,7 +31,7 @@ object RemoteConfig {
             KvCache.adConfig = Utils.b64EncodeUrlSafe(it)
         }
 
-        getRemoteConfig()
+        getRemoteProxy()
 
         InstallReferrerUtils.checkOrganic(true)
 //            }
@@ -57,7 +58,7 @@ object RemoteConfig {
 
     fun getVpnProxyList(): String = getStringConfig(
         "scape_conf_serv",
-         "ewogICJjb25mX3NlcnYiOiB7CiAgICAibGlzdHMiOiBbCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDEiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE4CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAiY291bnRyeSI6ICJVUyIsCiAgICAgICAgImFsaWFzIjogIkNhbGlmb3JuaWEtMDIiLAogICAgICAgICJzZXJ2ZXIiOiAiMS4xLjEuMSIsCiAgICAgICAgInBvcnQiOiA0NDMsCiAgICAgICAgInVzZXIiOiAieHh4eCIsCiAgICAgICAgInBhc3MiOiAieHh4IiwKICAgICAgICAicGluZyI6IDE2CiAgICAgIH0KICAgIF0KICB9Cn0="
+        ScapeLib.core(app)
     )
 
     private fun getStringConfig(key: String, def: String) =
