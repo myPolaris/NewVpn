@@ -95,6 +95,7 @@ class MainActivity : BaseActivity<PageMainBinding>() {
                 it.bgCenter.visibility = View.INVISIBLE
                 it.groupOn.visibility = View.GONE
                 it.imgOffBtn.visibility = View.VISIBLE
+                it.imgConnectionState.isSelected = false
                 it.tvConnectionState.text = getString(R.string.s_not_connected)
             }
         }
@@ -170,7 +171,7 @@ class MainActivity : BaseActivity<PageMainBinding>() {
             }
             it.event.observeCompat(this) { event ->
                 if (event is NextPageEvent) {
-                   goResultPage()
+                    goResultPage()
                 }
             }
         }
@@ -228,7 +229,6 @@ class MainActivity : BaseActivity<PageMainBinding>() {
     }
 
     private fun toggleByDebug(isStop: Boolean) {
-        //TODO
         if (isStop) {
             adViewModel.disconnected(
                 this@MainActivity
