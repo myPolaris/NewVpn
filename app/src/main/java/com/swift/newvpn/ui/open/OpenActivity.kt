@@ -98,8 +98,6 @@ class OpenActivity : BaseActivity<PageOpenBinding>() {
         super.onDestroy()
     }
 
-    override fun isFitSystemWindows() = false
-
     companion object {
         fun start(activity: Activity) {
             Intent(activity, OpenActivity::class.java).apply {

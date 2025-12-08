@@ -174,11 +174,12 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/bg_center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:src="@mipmap/bg_on"
         android:visibility="invisible"
         android:scaleType="centerCrop"
+        app:layout_constraintHeight_percent="0.32"
         app:layout_constraintTop_toBottomOf="@id/tv_connect_time" />
 
     <View
@@ -199,7 +200,7 @@
         android:paddingStart="6dp"
         app:layout_constraintVertical_bias="0.35"
         app:layout_constraintBottom_toBottomOf="@id/card_proxy_bg_on"
-        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tv_proxy_name_on"
@@ -261,7 +262,7 @@
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/group_on"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="card_proxy_bg_on,img_national_flag_on,tv_proxy_name_on,line1,tv_disconnect,point_on" />

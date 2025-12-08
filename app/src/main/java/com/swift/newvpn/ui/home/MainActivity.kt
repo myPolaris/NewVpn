@@ -4,11 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import androidx.activity.viewModels
-import com.swift.newvpn.BuildConfig
 import com.swift.newvpn.R
 import com.swift.newvpn.base.BaseActivity
 import com.swift.newvpn.base.KvCache
@@ -17,8 +15,6 @@ import com.swift.newvpn.databinding.PageMainBinding
 import com.swift.newvpn.model.SocksBean
 import com.swift.newvpn.model.SpeedData
 import com.swift.newvpn.ui.proxy.ProxyListActivity
-import com.swift.newvpn.vpn.services.ScapeVpnConnection
-import com.swift.newvpn.vpn.services.VpnState
 import com.swift.newvpn.ui.registerVpnLauncher
 import com.swift.newvpn.ui.result.ResultActivity
 import com.swift.newvpn.ui.setting.SettingActivity
@@ -28,6 +24,8 @@ import com.swift.newvpn.utils.getNationalFlagImage
 import com.swift.newvpn.utils.isNotificationPermissionEnable
 import com.swift.newvpn.utils.observeCompat
 import com.swift.newvpn.utils.setNativeDef
+import com.swift.newvpn.vpn.services.ScapeVpnConnection
+import com.swift.newvpn.vpn.services.VpnState
 
 class MainActivity : BaseActivity<PageMainBinding>() {
 
@@ -216,11 +214,12 @@ class MainActivity : BaseActivity<PageMainBinding>() {
             if (it) {
                 val isStop = KvCache.serviceState.canStop
                 adViewModel.startTimer(isStop)
-                if (BuildConfig.DEBUG){
-                    toggleByDebug(isStop)
-                } else {
+                //TODO
+//                if (BuildConfig.DEBUG){
+//                    toggleByDebug(isStop)
+//                } else {
                     toggleByRelease(isStop)
-                }
+//                }
             } else {
                 hideLoadingDialog()
                 AppUtils.showToast(this@MainActivity, R.string.vpn_proxy_loading)
