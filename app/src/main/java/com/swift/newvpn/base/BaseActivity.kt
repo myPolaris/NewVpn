@@ -108,7 +108,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     open fun onBackPressImpl() {
         if (isHomePage) {
-            finish()
+            moveTaskToBack(true)
         } else {
             showBackAd()
         }
